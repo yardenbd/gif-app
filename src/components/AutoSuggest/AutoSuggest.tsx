@@ -4,15 +4,17 @@ import { StyledAutosuggest } from "./style";
 import { SuggestItem } from "./SuggestItem";
 
 interface IAutoSuggestProps {
-  gifs: IMappedGif[];
+  queris: string[];
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 export const AutoSuggest: React.FC<IAutoSuggestProps> = ({
-  gifs,
+  queris,
   setQuery,
 }) => {
-  const gifsToRender = gifs.map((gif, ind) => (
-    <SuggestItem key={ind} gif={gif} />
+  const querisToRender = queris.map((query) => (
+    <SuggestItem onSelect={() => setQuery(query)} key={query}>
+      {query}
+    </SuggestItem>
   ));
-  return <StyledAutosuggest>{gifsToRender}</StyledAutosuggest>;
+  return <StyledAutosuggest>{querisToRender}</StyledAutosuggest>;
 };

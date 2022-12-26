@@ -1,22 +1,27 @@
 import styled from "styled-components";
 
-export const StyledAutosuggest = styled.div`
+export const StyledAutosuggest = styled.ul`
   width: 100%;
   max-height: 300px;
   position: absolute;
+  z-index: 10;
   overflow-y: scroll;
-  top: calc(100% + 10px);
+  overflow-x: hidden;
+  top: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  background: white;
+  margin: 0;
+  padding: 0;
 `;
 
-export const StyledSuggestItem = styled.div`
+export const StyledSuggestItem = styled.li`
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  list-style: none;
   :hover {
-    outline: 1px solid black;
+    background: lightgray;
   }
+  padding-left: 10px;
 `;

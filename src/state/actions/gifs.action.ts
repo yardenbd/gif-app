@@ -8,8 +8,6 @@ export const fetchGif = createAsyncThunk(
   "gifsSlice/fetchGif",
   async (value: string, { rejectWithValue }) => {
     try {
-      const response = await getGifs(value);
-      return response;
     } catch (err) {
       rejectWithValue(err);
     }
