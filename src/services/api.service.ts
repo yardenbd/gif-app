@@ -10,9 +10,7 @@ export const getGifs = async (value: string) => {
 };
 
 export const saveSearchQueryToLocalStorage = (value: string) => {
-  console.log("here");
   const allSavedQueris = localStorage.getItem("quries");
   const t = allSavedQueris && JSON.parse(allSavedQueris);
-
   localStorage.setItem("quries", JSON.stringify([...(t || []), value]));
 };

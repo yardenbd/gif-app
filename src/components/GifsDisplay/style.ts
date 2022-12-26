@@ -5,8 +5,9 @@ export const StyledGifsLayout = styled.div`
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
+  width: 50%;
   img {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
   }
 `;

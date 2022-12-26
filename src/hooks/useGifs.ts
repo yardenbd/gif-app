@@ -11,9 +11,9 @@ export const useGifs = () => {
   const getGifByQuery = async (value: string) => {
     const allGifs = await getGifs(value);
     saveSearchQueryToLocalStorage(value);
-
     if (localStorageGifs) {
-      const gifsToSave = [...JSON.parse(localStorageGifs), allGifs];
+      const gifsToSave = [...JSON.parse(localStorageGifs), ...allGifs];
+      console.log("gifsToSave", gifsToSave);
       setGifs(gifsToSave);
       localStorage.setItem("gifs", JSON.stringify(gifsToSave));
     } else {
@@ -25,5 +25,6 @@ export const useGifs = () => {
   useEffect(() => {
     if (localStorageGifs) setGifs(JSON.parse(localStorageGifs));
   }, [localStorageGifs]);
+
   return { getGifByQuery, gifs };
 };

@@ -13,6 +13,7 @@ function App() {
 
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    setQuery("");
     getGifByQuery(query);
   };
   return (
