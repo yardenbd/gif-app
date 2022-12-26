@@ -5,8 +5,12 @@ import { SuggestItem } from "./SuggestItem";
 
 interface IAutoSuggestProps {
   gifs: IMappedGif[];
+  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
-export const AutoSuggest: React.FC<IAutoSuggestProps> = ({ gifs }) => {
+export const AutoSuggest: React.FC<IAutoSuggestProps> = ({
+  gifs,
+  setQuery,
+}) => {
   const gifsToRender = gifs.map((gif, ind) => (
     <SuggestItem key={ind} gif={gif} />
   ));
