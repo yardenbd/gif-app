@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { PaginationRequestType } from "../../types";
 
 import { PaginationWrapper, PagintionItem } from "./style";
 
 interface IPaginationProps {
   onPageClick: (paginatioArg: PaginationRequestType) => void;
+  pagination: PaginationRequestType & {
+    pageIndex: number;
+  };
+  setPagination: React.Dispatch<
+    React.SetStateAction<
+      PaginationRequestType & {
+        pageIndex: number;
+      }
+    >
+  >;
 }
 
 const pagesArray = Array.from(Array(10).keys());
-const initialState = {
-  count: 25,
-  offset: 0,
-  pageIndex: 1,
-};
-export const Pagination: React.FC<IPaginationProps> = ({ onPageClick }) => {
-  const [pagination, setPagination] = useState<
-    PaginationRequestType & { pageIndex: number }
-  >(initialState);
+
+export const Pagination: React.FC<IPaginationProps> = ({
+  onPageClick,
+  pagination,
+  setPagination,
+}) => {
   const handlePageClick = (pageIndex: number) => {
     const offset = pageIndex * 25;
     setPagination((prevState) => {
