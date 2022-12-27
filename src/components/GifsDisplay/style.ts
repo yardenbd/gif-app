@@ -6,9 +6,12 @@ export const StyledGifsLayout = styled.div`
   gap: 20px;
   flex-wrap: wrap;
   width: 50%;
-  margin-top: 15px;
+  margin-bottom: auto;
   img {
     width: 80px;
     height: 80px;
+  }
+  @media only screen and (max-width: 760px) {
+    overflow-y: scroll;
   }
 `;

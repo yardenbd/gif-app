@@ -1,4 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const reuseableFlexbox = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const AppWrapper = styled.main`
   display: flex;
@@ -6,13 +12,15 @@ export const AppWrapper = styled.main`
   flex-direction: column;
   justify-content: space-between;
   height: 90vh;
+  gap: 15px;
 `;
 
 export const StyledForm = styled.form`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${reuseableFlexbox}
   gap: 15px;
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 export const InputWrapper = styled.div`
@@ -28,4 +36,9 @@ export const InputWrapper = styled.div`
       outline: none;
     }
   }
+`;
+
+export const RowContainer = styled.div`
+  ${reuseableFlexbox}
+  gap: 10px;
 `;
