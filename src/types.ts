@@ -256,7 +256,7 @@ export interface IGif {
   analytics: Analytics;
 }
 
-export interface Pagination {
+export interface IPagination {
   total_count: number;
   count: number;
   offset: number;
@@ -270,7 +270,7 @@ export interface Meta {
 
 export interface IResponseData {
   data: IGif[];
-  pagination: Pagination;
+  pagination: IPagination;
   meta: Meta;
 }
 
@@ -279,3 +279,5 @@ export interface IMappedGif {
   id: string;
   name: string;
 }
+
+export type PaginationRequestType = Omit<IPagination, "total_count">;

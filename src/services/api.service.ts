@@ -1,10 +1,16 @@
-import { IGif, IMappedGif, IResponseData } from "../types";
+import {
+  IGif,
+  IMappedGif,
+  IResponseData,
+  PaginationRequestType,
+} from "../types";
 
 export const getGifs = async (
   value: string,
-  errorCallback: React.Dispatch<React.SetStateAction<boolean>>
+  errorCallback: React.Dispatch<React.SetStateAction<boolean>>,
+  pagination: PaginationRequestType
 ) => {
-  const URL = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_SECRET_API_KEY}&q=${value}&limit=25&offset=0&rating=g&lang=en`;
+  const URL = `https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_SECRET_API_KEY}&q=${value}&limit=${pagination.count}&offset=${pagination.offset}&rating=g&lang=en`;
   const response = await fetch(URL);
   if (!response.ok) {
     errorCallback(!response.ok);

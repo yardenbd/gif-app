@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
+export const AppWrapper = styled.main`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90vh;
+`;
+
 export const StyledForm = styled.form`
   display: flex;
   align-items: center;

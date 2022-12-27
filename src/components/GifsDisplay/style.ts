@@ -5,7 +5,7 @@ export const StyledGifsLayout = styled.div`
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  width: 100%;
+  width: 50%;
   margin-top: 15px;
   img {
     width: 80px;
