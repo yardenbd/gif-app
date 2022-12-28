@@ -32,7 +32,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
     onPageClick({ count, offset });
   };
 
-  const paginationItemToRender = paginationRange?.map((page, ind) => {
+  const paginationItemToRender = paginationRange?.map((page) => {
     if (typeof page === "string") {
       return (
         <PagintionItem key={"id" + Math.random().toString(16).slice(2)}>

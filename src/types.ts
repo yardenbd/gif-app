@@ -282,7 +282,14 @@ export interface IPaginationState extends PaginationRequestType {
   total: IPagination["total_count"];
   pageIndex: number;
 }
+export type DateFilter = "Earlier than" | "Later than";
 
-export type FilterObject = Record<FilterCriteria, string>;
+export type FilterObject = Record<
+  FilterCriteria,
+  {
+    from: DateFilter;
+    time: string;
+  }
+>;
 
 export type Direction = "row" | "column";

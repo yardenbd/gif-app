@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Form } from "./components/Form/Form";
 import { GifsDisplay } from "./components/GifsDisplay/GifsDisplay";
 import { Pagination } from "./components/Pagintaion/Pagination";
 import { useGifs } from "./hooks/useGifs";
 import { AppWrapper } from "./components/Form/style";
-import { Direction, FilterObject, IPaginationState } from "./types";
+import { DateFilter, Direction, FilterObject, IPaginationState } from "./types";
 
 const App = (): JSX.Element => {
   const {
@@ -14,9 +14,7 @@ const App = (): JSX.Element => {
     error,
   } = useGifs();
 
-  const [filterBy, setFilterBy] = useState<FilterObject>({
-    date: "01-01-1970",
-  });
+  const [filterBy, setFilterBy] = useState<FilterObject | null>(null);
   const [direction, setDirection] = useState<Direction>("row");
 
   const [pagination, setPagination] = useState<IPaginationState>({
@@ -36,16 +34,20 @@ const App = (): JSX.Element => {
     });
   };
 
-  const handleFilterBy = (value: string) => {
-    setFilterBy({ date: value });
-  };
+  const handleFilterBy = useCallback((filterType: DateFilter, time: string) => {
+    setFilterBy({ date: { from: filterType, time } });
+  }, []);
 
-  const filteredGifs = gifs.filter((gif) => {
-    const isLaterThanFilterDate =
-      Date.parse(gif.import_datetime) > Date.parse(filterBy.date);
-    if (isLaterThanFilterDate) return gif;
-    return null;
-  });
+  const filteredGifs = filterBy
+    ? gifs.filter((gif) => {
+        const isGreaterOperator = filterBy.date.from === "Later than";
+        const isLaterThanFilterDate = isGreaterOperator
+          ? Date.parse(gif.import_datetime) > Date.parse(filterBy.date.time)
+          : Date.parse(gif.import_datetime) < Date.parse(filterBy.date.time);
+        if (isLaterThanFilterDate) return gif;
+        return null;
+      })
+    : gifs;
 
   const renderPagination = !!filteredGifs.length && (
     <Pagination

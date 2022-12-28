@@ -4,10 +4,11 @@ import { useGifs } from "../../hooks/useGifs";
 import { InputWrapper, RowContainer, StyledForm } from "./style";
 import { AutoSuggest } from "../AutoSuggest/AutoSuggest";
 import { FilterComponent } from "../FilterComponent/FilterComponent";
+import { DateFilter } from "../../types";
 
 interface IFormProps {
   handleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
-  handleFilterBy: (value: string) => void;
+  handleFilterBy: (filterType: DateFilter, value: string) => void;
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
