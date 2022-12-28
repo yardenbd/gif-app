@@ -274,10 +274,8 @@ export interface IResponseData {
   meta: Meta;
 }
 
-export interface IMappedGif {
-  url: string;
-  id: string;
-  name: string;
-}
-
 export type PaginationRequestType = Omit<IPagination, "total_count">;
+
+type FilterCriteria = "date";
+
+export type FilterObject = Record<FilterCriteria, string>;

@@ -9,5 +9,5 @@ export const GifsDisplay: React.FC<IGifsDisplayProps> = ({ gifs }) => {
   const gifsToRender = gifs.map((gif) => (
     <img src={gif.images.original.url} key={gif.id} alt="gif" />
   ));
-  return <StyledGifsLayout>{gifsToRender}</StyledGifsLayout>;
+  return <StyledGifsLayout id="gifs">{gifsToRender}</StyledGifsLayout>;
 };

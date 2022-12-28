@@ -1,9 +1,4 @@
-import {
-  IGif,
-  IMappedGif,
-  IResponseData,
-  PaginationRequestType,
-} from "../types";
+import { IResponseData, PaginationRequestType } from "../types";
 
 export const getGifs = async (
   value: string,

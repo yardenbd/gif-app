@@ -1,5 +1,4 @@
 import React from "react";
-import { IMappedGif } from "../../types";
 import { StyledAutosuggest } from "./style";
 import { SuggestItem } from "./SuggestItem";
 

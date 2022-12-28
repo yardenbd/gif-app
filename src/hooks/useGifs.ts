@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   getGifs,
   saveSearchQueryToLocalStorage,
@@ -6,8 +6,13 @@ import {
 import { IGif, PaginationRequestType } from "../types";
 export const useGifs = () => {
   const localStorageGifs = localStorage.getItem("gifs");
+
   const prevoiusQuries = localStorage.getItem("quries");
-  const [gifs, setGifs] = useState<IGif[]>([]);
+
+  const [gifs, setGifs] = useState<IGif[]>(
+    (localStorageGifs && JSON.parse(localStorageGifs)) || []
+  );
+
   const [error, setError] = useState<boolean>(false);
 
   const getGifByQuery = async (
@@ -24,10 +29,6 @@ export const useGifs = () => {
     (prevoiusQuries &&
       JSON.parse(prevoiusQuries)[JSON.parse(prevoiusQuries).length - 1]) ||
     "";
-
-  useEffect(() => {
-    if (localStorageGifs) setGifs(JSON.parse(localStorageGifs));
-  }, [localStorageGifs]);
 
   return {
     getGifByQuery,

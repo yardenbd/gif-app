@@ -4,7 +4,7 @@ import { GifsDisplay } from "./components/GifsDisplay/GifsDisplay";
 import { Pagination } from "./components/Pagintaion/Pagination";
 import { useGifs } from "./hooks/useGifs";
 import { AppWrapper } from "./style";
-import { PaginationRequestType } from "./types";
+import { FilterObject, PaginationRequestType } from "./types";
 
 const initialState = {
   count: 25,
@@ -12,15 +12,16 @@ const initialState = {
   pageIndex: 1,
 };
 
-function App() {
-  const [filterBy, setFilterBy] = useState({
+const App = (): JSX.Element => {
+  const [filterBy, setFilterBy] = useState<FilterObject>({
     date: "01-01-1970",
   });
   const [pagination, setPagination] = useState<
     PaginationRequestType & { pageIndex: number }
   >(initialState);
   const [query, setQuery] = useState<string>("");
-  const { getGifByQuery, gifs, latestQuery } = useGifs();
+
+  const { getGifByQuery, gifs, latestQuery, error } = useGifs();
 
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     if (!query) return;
@@ -44,7 +45,7 @@ function App() {
     return null;
   });
 
-  const renderPagination = filteredGifs.length > 0 && (
+  const renderPagination = filteredGifs.length && (
     <Pagination
       pagination={pagination}
       setPagination={setPagination}
@@ -53,6 +54,8 @@ function App() {
       }
     />
   );
+  const renderErrorMessage = error && <h1>Could not fetch gifs</h1>;
+
   return (
     <AppWrapper>
       <Form
@@ -62,9 +65,10 @@ function App() {
         handleFilterBy={handleFilterBy}
       />
       <GifsDisplay gifs={filteredGifs} />
+      {renderErrorMessage}
       {renderPagination}
     </AppWrapper>
   );
-}
+};
 
 export default App;

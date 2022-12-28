@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useClickOutside } from "../../hooks/useClickOutside";
 import { useGifs } from "../../hooks/useGifs";
 import { InputWrapper, RowContainer, StyledForm } from "../../style";
 import { AutoSuggest } from "../AutoSuggest/AutoSuggest";
@@ -21,22 +22,28 @@ export const Form: React.FC<IFormProps> = ({
 
   const { prevoiusQuries } = useGifs();
 
-  const isQueryInPrevoiusQuries = prevoiusQuries.filter((value) =>
+  const inputWrapperRef = useRef<HTMLDivElement>(null);
+
+  const filteredPreviousQuries = prevoiusQuries.filter((value) =>
     value.toLowerCase().includes(query.toLowerCase())
   );
 
-  const displaySearchReusltCondition =
-    shouldDispayHistorySearchResult && query && isQueryInPrevoiusQuries;
-
-  const renderAutosuggest = displaySearchReusltCondition && (
-    <AutoSuggest setQuery={setQuery} queris={isQueryInPrevoiusQuries} />
+  const renderAutosuggest = shouldDispayHistorySearchResult && (
+    <AutoSuggest setQuery={setQuery} queris={filteredPreviousQuries} />
   );
+
+  const isClickedOutside = useClickOutside(inputWrapperRef);
+
+  useEffect(() => {
+    if (isClickedOutside) setShouldDispayHistorySearchResult(false);
+  }, [isClickedOutside]);
 
   return (
     <StyledForm onSubmit={handleSubmit}>
       <RowContainer>
-        <InputWrapper>
+        <InputWrapper ref={inputWrapperRef}>
           <input
+            id="input"
             type={"text"}
             value={query}
             onFocus={() => setShouldDispayHistorySearchResult(true)}
