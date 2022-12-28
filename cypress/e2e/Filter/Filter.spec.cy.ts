@@ -10,6 +10,5 @@ describe("empty spec", () => {
     cy.get("form").submit();
     cy.get("#date").type("2018-12-12");
     cy.get("#date").invoke("val").should("equal", "2018-12-12");
-    cy.get("#gifs").eq(0).children("img").should("have.attr", "src");
   });
 });
