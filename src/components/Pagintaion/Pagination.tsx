@@ -34,7 +34,11 @@ export const Pagination: React.FC<IPaginationProps> = ({
 
   const paginationItemToRender = paginationRange?.map((page, ind) => {
     if (typeof page === "string") {
-      return <PagintionItem key={"id" + Math.random().toString(16).slice(2)}>;
+      return (
+        <PagintionItem key={"id" + Math.random().toString(16).slice(2)}>
+          {page}
+        </PagintionItem>
+      );
     } else
       return (
         <PagintionItem
