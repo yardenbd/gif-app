@@ -276,8 +276,9 @@ export interface IResponseData {
 
 export type PaginationRequestType = Omit<IPagination, "total_count">;
 
-type FilterCriteria = "date";
+type FilterCriteria = "date" | "rating";
 
+export type Rating = "Y" | "G" | "PG" | "PG-13" | "R";
 export interface IPaginationState extends PaginationRequestType {
   total: IPagination["total_count"];
   pageIndex: number;
@@ -286,10 +287,7 @@ export type DateFilter = "Earlier than" | "Later than";
 
 export type FilterObject = Record<
   FilterCriteria,
-  {
-    from: DateFilter;
-    time: string;
-  }
+  { from: DateFilter; time: string } | Rating | null
 >;
 
 export type Direction = "row" | "column";

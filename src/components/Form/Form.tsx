@@ -4,12 +4,13 @@ import { useGifs } from "../../hooks/useGifs";
 import { InputWrapper, RowContainer, StyledForm } from "./style";
 import { AutoSuggest } from "../AutoSuggest/AutoSuggest";
 import { FilterComponent } from "../FilterComponent/FilterComponent";
-import { DateFilter } from "../../types";
+import { FilterObject } from "../../types";
 
 interface IFormProps {
   handleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
-  handleFilterBy: (filterType: DateFilter, value: string) => void;
+  handleFilterBy: (filterType: Partial<FilterObject>) => void;
   query: string;
+  filterBy: Partial<FilterObject> | null;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 export const Form: React.FC<IFormProps> = ({
@@ -17,6 +18,7 @@ export const Form: React.FC<IFormProps> = ({
   handleFilterBy,
   query,
   setQuery,
+  filterBy,
 }) => {
   const [shouldDispayHistorySearchResult, setShouldDispayHistorySearchResult] =
     useState<boolean>(false);
@@ -55,7 +57,7 @@ export const Form: React.FC<IFormProps> = ({
 
         <input type={"submit"} value="Submit" />
       </RowContainer>
-      <FilterComponent handleFilterBy={handleFilterBy} />
+      <FilterComponent filterBy={filterBy} handleFilterBy={handleFilterBy} />
     </StyledForm>
   );
 };

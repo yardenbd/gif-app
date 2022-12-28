@@ -4,7 +4,8 @@ import { GifsDisplay } from "./components/GifsDisplay/GifsDisplay";
 import { Pagination } from "./components/Pagintaion/Pagination";
 import { useGifs } from "./hooks/useGifs";
 import { AppWrapper } from "./components/Form/style";
-import { DateFilter, Direction, FilterObject, IPaginationState } from "./types";
+import { Direction, FilterObject, IPaginationState } from "./types";
+import { filterByDate, filterByRating } from "./helpers";
 
 const App = (): JSX.Element => {
   const {
@@ -14,7 +15,10 @@ const App = (): JSX.Element => {
     error,
   } = useGifs();
 
-  const [filterBy, setFilterBy] = useState<FilterObject | null>(null);
+  const [filterBy, setFilterBy] = useState<Partial<FilterObject>>({
+    date: null,
+    rating: null,
+  });
   const [direction, setDirection] = useState<Direction>("row");
 
   const [pagination, setPagination] = useState<IPaginationState>({
@@ -29,24 +33,27 @@ const App = (): JSX.Element => {
     if (!query) return;
     ev.preventDefault();
     const total = await getGifByQuery(query, { count: 25, offset: 0 });
-    console.log("totalgifs", total);
+
     setPagination((prevState) => {
       return { ...prevState, pageIndex: 1, total };
     });
   };
 
-  const handleFilterBy = useCallback((filterType: DateFilter, time: string) => {
-    setFilterBy({ date: { from: filterType, time } });
+  const handleFilterBy = useCallback((filter: Partial<FilterObject>) => {
+    setFilterBy((prevFilters) => {
+      if (!prevFilters) return { ...filter };
+      return { ...prevFilters, ...filter };
+    });
   }, []);
 
   const filteredGifs = filterBy
     ? gifs.filter((gif) => {
-        const isGreaterOperator = filterBy.date.from === "Later than";
-        const isLaterThanFilterDate = isGreaterOperator
-          ? Date.parse(gif.import_datetime) > Date.parse(filterBy.date.time)
-          : Date.parse(gif.import_datetime) < Date.parse(filterBy.date.time);
-        if (isLaterThanFilterDate) return gif;
-        return null;
+        const date = filterByDate(gif, filterBy);
+        const rating = filterByRating(gif, filterBy);
+        console.log("date", date);
+        console.log("rating", rating);
+        if (date && rating) return gif;
+        else return null;
       })
     : gifs;
 
@@ -67,6 +74,7 @@ const App = (): JSX.Element => {
         handleSubmit={handleSubmit}
         setQuery={setQuery}
         query={query}
+        filterBy={filterBy}
         handleFilterBy={handleFilterBy}
       />
       <button

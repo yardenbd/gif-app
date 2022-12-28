@@ -41,4 +41,11 @@ export const InputWrapper = styled.div`
 export const RowContainer = styled.div`
   ${reuseableFlexbox}
   gap: 10px;
+
+  &.filter {
+    @media only screen and (max-width: 1100px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
 `;
