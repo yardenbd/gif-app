@@ -284,3 +284,5 @@ export interface IPaginationState extends PaginationRequestType {
 }
 
 export type FilterObject = Record<FilterCriteria, string>;
+
+export type Direction = "row" | "column";

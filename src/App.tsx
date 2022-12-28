@@ -4,7 +4,7 @@ import { GifsDisplay } from "./components/GifsDisplay/GifsDisplay";
 import { Pagination } from "./components/Pagintaion/Pagination";
 import { useGifs } from "./hooks/useGifs";
 import { AppWrapper } from "./components/Form/style";
-import { FilterObject, IPaginationState } from "./types";
+import { Direction, FilterObject, IPaginationState } from "./types";
 
 const App = (): JSX.Element => {
   const {
@@ -17,6 +17,8 @@ const App = (): JSX.Element => {
   const [filterBy, setFilterBy] = useState<FilterObject>({
     date: "01-01-1970",
   });
+  const [direction, setDirection] = useState<Direction>("row");
+
   const [pagination, setPagination] = useState<IPaginationState>({
     count: 25,
     offset: 0,
@@ -64,7 +66,12 @@ const App = (): JSX.Element => {
         query={query}
         handleFilterBy={handleFilterBy}
       />
-      <GifsDisplay gifs={filteredGifs} />
+      <button
+        onClick={() => setDirection(direction === "row" ? "column" : "row")}
+      >
+        show {direction === "column" ? "row" : "column"}
+      </button>
+      <GifsDisplay direction={direction} gifs={filteredGifs} />
       {renderErrorMessage}
       {renderPagination}
     </AppWrapper>
