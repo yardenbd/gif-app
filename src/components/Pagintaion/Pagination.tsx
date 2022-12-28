@@ -19,7 +19,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
 
   const paginationRange = usePagination({
     currentPage: pageIndex,
-    totalCount: total - count,
+    totalCount: total,
     siblingCount: 1,
     pageSize: count,
   });
