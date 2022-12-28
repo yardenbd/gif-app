@@ -28,9 +28,10 @@ const App = (): JSX.Element => {
   const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     if (!query) return;
     ev.preventDefault();
-    const totalGifs = await getGifByQuery(query, { count: 25, offset: 0 });
+    const total = await getGifByQuery(query, { count: 25, offset: 0 });
+    console.log("totalgifs", total);
     setPagination((prevState) => {
-      return { ...prevState, pageIndex: 1, total: totalGifs };
+      return { ...prevState, pageIndex: 1, total };
     });
   };
 

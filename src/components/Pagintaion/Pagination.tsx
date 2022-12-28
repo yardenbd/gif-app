@@ -19,18 +19,21 @@ export const Pagination: React.FC<IPaginationProps> = ({
 
   const paginationRange = usePagination({
     currentPage: pageIndex,
-    totalCount: total,
+    totalCount: total - count,
     siblingCount: 1,
     pageSize: count,
   });
 
   const handlePageClick = (desiredPageIndex: number) => {
-    if (desiredPageIndex < 1 || desiredPageIndex > total / count) return;
+    if (desiredPageIndex < 1 || desiredPageIndex > Math.floor(total / count))
+      return;
     const offset = desiredPageIndex * count;
     setPagination((prevState) => {
       return { ...prevState, offset, pageIndex: desiredPageIndex };
     });
-    onPageClick({ count, offset });
+
+    const lastPageIndex = offset === total;
+    onPageClick({ count, offset: lastPageIndex ? offset - 25 : offset });
   };
 
   const paginationItemToRender = paginationRange?.map((page) => {
