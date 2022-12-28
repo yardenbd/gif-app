@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useGifs } from "../../hooks/useGifs";
-import { InputWrapper, RowContainer, StyledForm } from "../../style";
+import { InputWrapper, RowContainer, StyledForm } from "./style";
 import { AutoSuggest } from "../AutoSuggest/AutoSuggest";
 import { FilterComponent } from "../FilterComponent/FilterComponent";
 
 interface IFormProps {
   handleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
-  handleFilterBy: (criteria: string, value: string) => void;
+  handleFilterBy: (value: string) => void;
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }

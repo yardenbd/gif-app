@@ -1,8 +1,8 @@
 import React from "react";
-import { RowContainer } from "../../style";
+import { RowContainer } from "../Form/style";
 
 interface IFilterComponentProps {
-  handleFilterBy: (filterType: string, query: string) => void;
+  handleFilterBy: (query: string) => void;
 }
 export const FilterComponent: React.FC<IFilterComponentProps> = ({
   handleFilterBy,
@@ -13,10 +13,7 @@ export const FilterComponent: React.FC<IFilterComponentProps> = ({
       <label htmlFor="date">Later than</label>
       <input
         onChange={(ev) =>
-          handleFilterBy(
-            "date",
-            ev.target.value ? ev.target.value : "01-01-1970"
-          )
+          handleFilterBy(ev.target.value ? ev.target.value : "01-01-1970")
         }
         id="date"
         type={"date"}

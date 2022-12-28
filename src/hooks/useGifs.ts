@@ -9,8 +9,11 @@ export const useGifs = () => {
 
   const prevoiusQuries = localStorage.getItem("quries");
 
-  const [gifs, setGifs] = useState<IGif[]>(
-    (localStorageGifs && JSON.parse(localStorageGifs)) || []
+  const [gifs, setGifs] = useState<{ gifs: IGif[]; totalGifs: number }>(
+    (localStorageGifs && JSON.parse(localStorageGifs)) || {
+      gifs: [],
+      totalGifs: 0,
+    }
   );
 
   const [error, setError] = useState<boolean>(false);
@@ -19,10 +22,11 @@ export const useGifs = () => {
     query: string,
     pagination: PaginationRequestType
   ) => {
-    const allGifs = await getGifs(query, setError, pagination);
+    const result = await getGifs(query, setError, pagination);
     saveSearchQueryToLocalStorage(query);
-    setGifs(allGifs);
-    localStorage.setItem("gifs", JSON.stringify(allGifs));
+    setGifs(result);
+    localStorage.setItem("gifs", JSON.stringify(result));
+    return result.totalGifs;
   };
 
   const latestQuery: string =

@@ -278,4 +278,9 @@ export type PaginationRequestType = Omit<IPagination, "total_count">;
 
 type FilterCriteria = "date";
 
+export interface IPaginationState extends PaginationRequestType {
+  total: IPagination["total_count"];
+  pageIndex: number;
+}
+
 export type FilterObject = Record<FilterCriteria, string>;

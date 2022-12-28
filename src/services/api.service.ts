@@ -9,16 +9,19 @@ export const getGifs = async (
   const response = await fetch(URL);
   if (!response.ok) {
     errorCallback(!response.ok);
-    return [];
+    return { gifs: [], totalGifs: 0 };
   }
   const parsedResponse = (await response.json()) as IResponseData;
   saveSearchQueryToLocalStorage(value);
-  return parsedResponse.data;
+  return {
+    gifs: parsedResponse.data,
+    totalGifs: parsedResponse.pagination.total_count,
+  };
 };
 
 export const saveSearchQueryToLocalStorage = (query: string) => {
-  const allSavedQueris = localStorage.getItem("quries");
-  const quries = allSavedQueris && (JSON.parse(allSavedQueris) as string[]);
+  const savedQuries = localStorage.getItem("quries");
+  const quries = savedQuries && (JSON.parse(savedQuries) as string[]);
   if (!quries) {
     localStorage.setItem("quries", JSON.stringify([query]));
     return;

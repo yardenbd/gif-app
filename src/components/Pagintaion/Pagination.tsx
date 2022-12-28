@@ -1,47 +1,53 @@
 import React from "react";
-import { PaginationRequestType } from "../../types";
+import { usePagination } from "../../hooks/usePagination";
+import { IPaginationState, PaginationRequestType } from "../../types";
 
 import { PaginationWrapper, PagintionItem } from "./style";
 
 interface IPaginationProps {
   onPageClick: (paginatioArg: PaginationRequestType) => void;
-  pagination: PaginationRequestType & {
-    pageIndex: number;
-  };
-  setPagination: React.Dispatch<
-    React.SetStateAction<
-      PaginationRequestType & {
-        pageIndex: number;
-      }
-    >
-  >;
+  pagination: IPaginationState;
+  setPagination: React.Dispatch<React.SetStateAction<IPaginationState>>;
 }
-
-const pagesArray = Array.from(Array(10).keys());
 
 export const Pagination: React.FC<IPaginationProps> = ({
   onPageClick,
   pagination,
   setPagination,
 }) => {
+  const { pageIndex, total, count } = pagination;
+
+  const paginationRange = usePagination({
+    currentPage: pageIndex,
+    totalCount: total,
+    siblingCount: 1,
+    pageSize: count,
+  });
+
   const handlePageClick = (pageIndex: number) => {
-    const offset = pageIndex * 25;
+    const offset = pageIndex * count;
     setPagination((prevState) => {
       return { ...prevState, offset, pageIndex };
     });
-    onPageClick({ count: pagination.count, offset });
+    onPageClick({ count, offset });
   };
 
-  const paginationItemToRender = pagesArray.map((page) => (
-    <PagintionItem
-      onClick={() => handlePageClick(page + 1)}
-      className={pagination.pageIndex === page + 1 ? "active" : ""}
-      key={page}
-    >
-      {page + 1}
-    </PagintionItem>
-  ));
-  paginationItemToRender.unshift(
+  const paginationItemToRender = paginationRange?.map((page, ind) => {
+    if (typeof page === "string") {
+      return <PagintionItem key={page + ind.toString()}>...</PagintionItem>;
+    } else
+      return (
+        <PagintionItem
+          onClick={() => handlePageClick(page)}
+          className={pageIndex === page ? "active" : ""}
+          key={page}
+        >
+          {page}
+        </PagintionItem>
+      );
+  });
+
+  paginationItemToRender?.unshift(
     <PagintionItem
       onClick={() => handlePageClick(pagination.pageIndex - 1)}
       key={"previous"}
@@ -49,7 +55,8 @@ export const Pagination: React.FC<IPaginationProps> = ({
       Previous
     </PagintionItem>
   );
-  paginationItemToRender.push(
+
+  paginationItemToRender?.push(
     <PagintionItem
       onClick={() => handlePageClick(pagination.pageIndex + 1)}
       key={"next"}
