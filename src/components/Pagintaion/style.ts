@@ -3,15 +3,13 @@ export const PaginationWrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  select {
-    margin-left: 10px;
-  }
 `;
 
-export const PagintionItem = styled.a`
+export const PagintionItem = styled.button`
   cursor: pointer;
   border: 1px solid lightblue;
   padding: 5px;
+  background: transparent;
   :last-child() {
     border-left: none;
   }

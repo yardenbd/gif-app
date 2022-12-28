@@ -24,10 +24,11 @@ export const Pagination: React.FC<IPaginationProps> = ({
     pageSize: count,
   });
 
-  const handlePageClick = (pageIndex: number) => {
-    const offset = pageIndex * count;
+  const handlePageClick = (desiredPageIndex: number) => {
+    if (desiredPageIndex < 1 || desiredPageIndex > total / count) return;
+    const offset = desiredPageIndex * count;
     setPagination((prevState) => {
-      return { ...prevState, offset, pageIndex };
+      return { ...prevState, offset, pageIndex: desiredPageIndex };
     });
     onPageClick({ count, offset });
   };
