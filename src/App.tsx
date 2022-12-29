@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Form } from "./components/Form/Form";
 import { GifsDisplay } from "./components/GifsDisplay/GifsDisplay";
 import { Pagination } from "./components/Pagintaion/Pagination";
@@ -15,7 +15,7 @@ const App = (): JSX.Element => {
     error,
   } = useGifs();
 
-  const [filterBy, setFilterBy] = useState<Partial<FilterObject>>({
+  const [filterBy, setFilterBy] = useState<FilterObject>({
     date: null,
     rating: null,
   });
@@ -39,19 +39,10 @@ const App = (): JSX.Element => {
     });
   };
 
-  const handleFilterBy = useCallback((filter: Partial<FilterObject>) => {
-    setFilterBy((prevFilters) => {
-      if (!prevFilters) return { ...filter };
-      return { ...prevFilters, ...filter };
-    });
-  }, []);
-
   const filteredGifs = filterBy
     ? gifs.filter((gif) => {
         const date = filterByDate(gif, filterBy);
         const rating = filterByRating(gif, filterBy);
-        console.log("date", date);
-        console.log("rating", rating);
         if (date && rating) return gif;
         else return null;
       })
@@ -75,7 +66,7 @@ const App = (): JSX.Element => {
         setQuery={setQuery}
         query={query}
         filterBy={filterBy}
-        handleFilterBy={handleFilterBy}
+        handleFilterBy={setFilterBy}
       />
       <button
         onClick={() => setDirection(direction === "row" ? "column" : "row")}

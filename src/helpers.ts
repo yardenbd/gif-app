@@ -2,7 +2,8 @@ import { FilterObject, IGif } from "./types";
 
 export const filterByDate = (gif: IGif, filterBy: Partial<FilterObject>) => {
   if (typeof filterBy["date"] === "object") {
-    if (!filterBy.date) return gif;
+    if (!filterBy.date || !filterBy.date.from || !filterBy.date.time)
+      return gif;
     const isGreaterOperator = filterBy?.date?.from === "Later than";
     const isLaterThanFilterDate = isGreaterOperator
       ? Date.parse(gif.import_datetime) > Date.parse(filterBy.date.time)

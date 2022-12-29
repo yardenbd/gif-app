@@ -8,7 +8,7 @@ import { FilterObject } from "../../types";
 
 interface IFormProps {
   handleSubmit: (ev: React.FormEvent<HTMLFormElement>) => void;
-  handleFilterBy: (filterType: Partial<FilterObject>) => void;
+  handleFilterBy: React.Dispatch<React.SetStateAction<FilterObject>>;
   query: string;
   filterBy: Partial<FilterObject> | null;
   setQuery: React.Dispatch<React.SetStateAction<string>>;

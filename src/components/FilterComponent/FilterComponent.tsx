@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { DateFilter, FilterObject, Rating } from "../../types";
 import { RowContainer } from "../Form/style";
 
 interface IFilterComponentProps {
-  handleFilterBy: (filterType: Partial<FilterObject>) => void;
+  handleFilterBy: React.Dispatch<React.SetStateAction<FilterObject>>;
   filterBy: Partial<FilterObject> | null;
 }
 
@@ -14,19 +14,19 @@ export const FilterComponent: React.FC<IFilterComponentProps> = ({
   handleFilterBy,
   filterBy,
 }) => {
-  const [dateFilterType, setDateFilterType] = useState<DateFilter | null>(null);
-  const [ratingFilter, setRatingFilter] = useState<Rating | null>(null);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const renderDatePicker = dateFilterType && (
+  const renderDatePicker = filterBy?.date?.from && (
     <RowContainer>
-      <label htmlFor="date">{dateFilterType}</label>
+      <label htmlFor="date">{filterBy?.date?.from}</label>
       <input
-        ref={inputRef}
         onChange={(ev) =>
-          handleFilterBy({
-            date: { from: dateFilterType, time: ev.currentTarget.value },
+          handleFilterBy((prevFilters) => {
+            return {
+              ...prevFilters,
+              date: {
+                from: prevFilters.date?.from || null,
+                time: ev.target.value,
+              },
+            };
           })
         }
         id="date"
@@ -39,11 +39,14 @@ export const FilterComponent: React.FC<IFilterComponentProps> = ({
   const renderRatingSelect = (
     <select
       onChange={(ev) =>
-        setRatingFilter(
-          ev.currentTarget.value === "Select"
-            ? null
-            : (ev.currentTarget.value as Rating)
-        )
+        handleFilterBy((prevFilters) => {
+          return {
+            ...prevFilters,
+            rating: ev.currentTarget.value
+              ? (ev.currentTarget.value as Rating)
+              : null,
+          };
+        })
       }
     >
       {RATING_ARRAY.map((rating) => (
@@ -55,11 +58,15 @@ export const FilterComponent: React.FC<IFilterComponentProps> = ({
   const renderDateSelect = (
     <select
       onChange={(ev) =>
-        setDateFilterType(
-          ev.currentTarget.value === "Select"
-            ? null
-            : (ev.currentTarget.value as DateFilter)
-        )
+        handleFilterBy((prevFilters) => {
+          return {
+            ...prevFilters,
+            date: {
+              from: ev.currentTarget.value as DateFilter,
+              time: prevFilters.date?.time || "",
+            },
+          };
+        })
       }
     >
       {DATE_ARRAY.map((date) => (
@@ -67,30 +74,6 @@ export const FilterComponent: React.FC<IFilterComponentProps> = ({
       ))}
     </select>
   );
-
-  useEffect(() => {
-    if (!dateFilterType || !inputRef.current?.value) return;
-    handleFilterBy({
-      date: {
-        from: dateFilterType,
-        time: inputRef.current.value,
-      },
-    });
-  }, [dateFilterType, inputRef.current?.value, handleFilterBy]);
-
-  useEffect(() => {
-    if (!ratingFilter) return;
-    handleFilterBy({
-      rating: ratingFilter,
-    });
-  }, [ratingFilter, handleFilterBy]);
-
-  useEffect(() => {
-    if (!filterBy) {
-      setDateFilterType(null);
-      setRatingFilter(null);
-    }
-  }, [filterBy]);
 
   return (
     <RowContainer className="filter">
