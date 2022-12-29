@@ -33,7 +33,10 @@ const App = (): JSX.Element => {
     if (!query) return;
     ev.preventDefault();
     const total = await getGifByQuery(query, { count: 25, offset: 0 });
-
+    setFilterBy({
+      date: null,
+      rating: null,
+    });
     setPagination((prevState) => {
       return { ...prevState, pageIndex: 1, total };
     });
